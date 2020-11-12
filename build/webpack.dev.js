@@ -7,7 +7,27 @@ const env = require('../config/dev.env');
 module.exports = merge(commonConfig, {
   mode: 'development',
   module: {
-    rules: []
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                compileType: 'module',
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                exportLocalsConvention: 'camelCase',
+              },
+              sourceMap: true
+            }
+          }
+        ]
+      }
+    ]
   },
   devtool: 'inline-source-map',
   plugins: [
@@ -19,7 +39,8 @@ module.exports = merge(commonConfig, {
     host: 'localhost',
     port: config.dev.port,
     historyApiFallback: true,
-    open: true
+    open: true,
+    hot: true,
   }
 });
 
